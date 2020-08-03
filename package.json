@@ -1,0 +1,32 @@
+{
+  "name": "ayame",
+  "version": "0.1.0",
+  "description": "A lightwight discord.js framework",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayame/ayame.git"
+  },
+  "keywords": [
+    "ayame",
+    "bot",
+    "discord",
+    "discord.js",
+    "api",
+    "discordapp",
+    "framework",
+    "commands"
+  ],
+  "author": "PoLLeN <pollen@itsladybug.ml> (https://itsladybug.ml/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ayame/ayame/issues"
+  },
+  "homepage": "https://github.com/ayame/ayame#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  }
+}
