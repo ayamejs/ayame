@@ -2,7 +2,7 @@
 /**
  * Command execution context.
  */
-class CommandContext {
+module.exports = class CommandContext {
   constructor(client, msg) {
     this.client = client;
     this.message = msg;
@@ -51,4 +51,4 @@ class CommandContext {
   }
 }
 
-module.exports = CommandContext;
+

@@ -1,6 +1,6 @@
 const Piece = require("./Piece.js");
 
-class Monitor extends Piece {
+module.exports = class Monitor extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
   }
@@ -17,4 +17,4 @@ class Monitor extends Piece {
   async run(msg) {}
 }
 
-module.exports = Monitor;
+

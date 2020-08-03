@@ -1,5 +1,5 @@
 
-class Piece {
+module.exports = class Piece {
   constructor(client, store, file, options = {}) {
     this.client = client;
     this.store = store;
@@ -35,4 +35,4 @@ class Piece {
   async init() {}
 }
 
-module.exports = Piece;
+

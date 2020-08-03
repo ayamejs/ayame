@@ -2,7 +2,7 @@ const { Collection } = require("discord.js");
 const { join, relative, parse } = require("path");
 const { walk } = require("../utils/Utils.js");
 
-class Store extends Collection {
+module.exports = class Store extends Collection {
   constructor(client, name) {
     super();
 
@@ -83,4 +83,4 @@ class Store extends Collection {
   }
 }
 
-module.exports = Store;
+

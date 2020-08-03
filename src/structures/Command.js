@@ -3,7 +3,7 @@ const Piece = require("./Piece.js");
 const path = require("path");
 const Utils = require("../utils/Utils.js");
 
-class Command extends Piece {
+module.exports = class Command extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
 
@@ -121,4 +121,4 @@ class Command extends Piece {
   } 
 }
 
-module.exports = Command;
+

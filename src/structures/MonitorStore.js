@@ -1,6 +1,6 @@
 const Store = require("./Store.js");
 
-class MonitorStore extends Store {
+module.exports = class MonitorStore extends Store {
   constructor(client) {
     super(client, "monitors");
   }
@@ -10,4 +10,3 @@ class MonitorStore extends Store {
   }
 }
 
-module.exports = MonitorStore;

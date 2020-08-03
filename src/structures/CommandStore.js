@@ -1,7 +1,7 @@
 const Store = require("./Store.js");
 const { Collection } = require("discord.js");
 
-class CommandStore extends Store {
+module.exports = class CommandStore extends Store {
   constructor(client) {
     super(client, "commands");
 
@@ -67,4 +67,4 @@ class CommandStore extends Store {
   }
 }
 
-module.exports = CommandStore;
+

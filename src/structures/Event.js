@@ -1,6 +1,6 @@
 const Piece = require("./Piece.js");
 
-class Event extends Piece {
+module.exports = class Event extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
 
@@ -30,4 +30,3 @@ class Event extends Piece {
   async run(...args) {} 
 }
 
-module.exports = Event;

@@ -6,10 +6,19 @@ const path = require("path");
 /**
  * Static class with utilities used throughout the bot.
  */
-class Utils {
+module.exports = class Utils {
   constructor() {
     throw new Error("Utils is a static class and cannot be instantiated.");
   }
+
+  //I added this because why not
+	removeDuplicates(arr) {
+		return [...new Set(arr)]
+	}
+
+  capitalise(string) {
+		return string.split(' ').map(str => str.slice(0, 1).toUpperCase() + str.slice(1)).join(' ')
+	}
   
   static toProperCase(str) {
     return str.replace(/([^\W_]+[^\s-]*) */g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -51,5 +60,3 @@ class Utils {
 }
 
 Utils.sleep = promisify(setTimeout);
-
-module.exports = Utils;

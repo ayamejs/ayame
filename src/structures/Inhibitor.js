@@ -1,6 +1,6 @@
 const Piece = require("./Piece.js");
 
-class Inhibitor extends Piece {
+module.exports = class Inhibitor extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
   }
@@ -11,4 +11,4 @@ class Inhibitor extends Piece {
   }
 }
 
-module.exports = Inhibitor;
+

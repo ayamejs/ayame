@@ -1,6 +1,6 @@
 const Store = require("./Store.js");
 
-class InhibitorStore extends Store {
+module.exports = class InhibitorStore extends Store {
   constructor(client) {
     super(client, "inhibitors");
   }
@@ -17,4 +17,4 @@ class InhibitorStore extends Store {
   }
 }
 
-module.exports = InhibitorStore;
+
