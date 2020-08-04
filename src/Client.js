@@ -7,7 +7,7 @@ const InhibitorStore = require("./structures/InhibitorStore.js");
 const MonitorStore = require("./structures/MonitorStore.js");
 const AyameConsole = require("./utils/AyameConsole.js");
 
-class MiyakoClient extends Client {
+class AyameClient extends Client {
   constructor(options = {}) {
     super(mergeDefault(DefaultOptions, options));
 
