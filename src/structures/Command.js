@@ -50,61 +50,7 @@ class Command extends Piece {
       this.client.emit("commandError", ctx, err);
     }
   }
-
-  /**
-   * Verifies that a user is given.
-   */
-  async verifyUser(ctx, user, defaultToAuthor = false) {
-    if(!user && defaultToAuthor) return ctx.author;
-    if(!user) throw "What do you expect me to do without a user mention or an ID?";
-    const match = /^(?:<@!?)?(\d{17,19})>?$/.exec(user);
-    if(!match) throw "Baka! That's not a user mention or an ID. What were you trying to do?";
-    user = await this.client.users.fetch(match[1]).catch(() => null);
-    // We will assume they gave IDs as mentions are highly unlikely to fail.
-    if(!user) throw "I couldn't find that user! Make sure the ID is correct.";
-    return user;
-  }
-
-  /**
-   * Verifies that a member is given.
-   */
-  async verifyMember(ctx, member, defaultToAuthor = false) {
-    const user = await this.verifyUser(ctx, member, defaultToAuthor);
-    return ctx.guild.members.fetch(user);
-  }
-
-  async verifyChannel(ctx, channel, defaultToCurrent = false) {
-    if(!channel && defaultToCurrent) return ctx.channel;
-    if(!channel) throw "You need to mention a channel or provide an ID.";
-
-    const match = /^(?:<#)?(\d{17,19})>?$/.exec(channel);
-    if(!match) throw "Invalid channel, must be a mention or an ID.";
-
-    const chan = await this.client.channels.fetch(match[1]).catch(() => null);
-    if(!chan) throw "I could not find that channel.";
-
-    return chan;
-  }
-
-  verifyRole(ctx, rolename, optional = false) {
-    if(!rolename && optional) return null;
-    if(!rolename) throw "Baka! You must provide a role name or ID.";
-    rolename = rolename.toLowerCase();
-
-    // We check by ID or name. Nobody mentions roles for an argument.
-    const role = ctx.guild.roles.cache.find((role) => (role.id === rolename) || (role.name.toLowerCase() === rolename));
-    if(!role) throw "That role does not exist.";
-
-    return role;
-  }
-
-  verifyInt(num, def) {
-    if(typeof def === "number" && !num) return def;
-    const parsed = parseInt(num);
-    if(isNaN(parsed)) throw "Baka! You must provide a valid number.";
-    return parsed;
-  }
-
+ 
   /**
    * Executed before the command is ran.
    * The return value can be either true/false or a string.
