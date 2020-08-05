@@ -3,6 +3,9 @@ const Piece = require("./Piece.js");
 const path = require("path");
 const Utils = require("../utils/Utils.js");
 
+/**
+ * Command represents a runnable command.
+ */
 class Command extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
@@ -115,6 +118,7 @@ class Command extends Piece {
 
   /**
    * The actual command implementation, must be implemented in a subclass.
+   * @abstract
    */
   async run(ctx, args) { // eslint-disable-line no-unused-vars
     return ctx.reply(`${this.constructor.name} does not provide a \`run()\` implementation.`);

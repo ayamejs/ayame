@@ -1,3 +1,6 @@
 
-
-module.exports.DefaultOptions = {};
+// Default client options.
+module.exports.DefaultOptions = {
+  commandEditing: false,
+  commandTyping: false
+};

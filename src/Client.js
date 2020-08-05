@@ -67,4 +67,4 @@ class AyameClient extends Client {
   }
 }
 
-module.exports = MiyakoClient;
+module.exports = AyameClient;

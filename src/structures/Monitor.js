@@ -1,5 +1,8 @@
 const Piece = require("./Piece.js");
 
+/**
+ * Monitors are ran on every message.
+ */
 class Monitor extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
@@ -13,8 +16,11 @@ class Monitor extends Piece {
     }
   }
 
-  /* eslint-disable-next-line no-unused-vars */
-  async run(msg) {}
+  /**
+   * The actual implementation of this monitor.
+   * @abstract
+   */
+  async run(msg) {} // eslint-disable-line no-unused-vars
 }
 
 module.exports = Monitor;
