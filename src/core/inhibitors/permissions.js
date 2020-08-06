@@ -11,12 +11,12 @@ class PermissionsInhibitor extends Inhibitor {
     }, {});
   }
 
-  async run(ctx, command) {
-    if(ctx.channel.type !== "text") return false; // No permissions in DMs.
+  async run(msg, command) {
+    if(msg.channel.type !== "text") return false; // No permissions in DMs.
 
     // Check if user has permissions to run the command. Owner gets a bypass.
-    const user = this.client.isOwner(ctx.author) ? [] :
-      ctx.channel.permissionsFor(ctx.author).missing(command.userPermissions);
+    const user = this.client.isOwner(msg.author) ? [] :
+      msg.channel.permissionsFor(msg.author).missing(command.userPermissions);
 
     if(user.length > 0) {
       return `You do not have the following permission${user.length === 1 ? "" : "s"} to run this command: \`${
@@ -24,7 +24,7 @@ class PermissionsInhibitor extends Inhibitor {
     }
 
     // Now check if the bot has the permissions to perform the intended action.
-    const bot = ctx.channel.permissionsFor(this.client.user).missing(command.botPermissions);
+    const bot = msg.channel.permissionsFor(this.client.user).missing(command.botPermissions);
     if(bot.length > 0) {
       return `I need the following permission${bot.length === 1 ? "" : "s"} to do that: \`${
         bot.map((p) => this.friendlyPerms[p]).join(", ")}\``;

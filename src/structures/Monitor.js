@@ -10,10 +10,15 @@ class Monitor extends Piece {
 
   async _run(msg) {
     try {
+      if(!(await this.check(msg))) return false;
       return this.run(msg);
     } catch(err) {
       this.client.emit("monitorError", err);
     }
+  }
+
+  async check(msg) {
+    return true;
   }
 
   /**

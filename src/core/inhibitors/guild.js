@@ -1,8 +1,8 @@
 const { Inhibitor } = require("../..");
 
 class GuildInhibitor extends Inhibitor {
-  async run(ctx, command) {
-    if(command.guildOnly && !ctx.guild)
+  async run(msg, command) {
+    if(command.guildOnly && !msg.guild)
       return "You can only run this command in a guild channel.";
   }
 }

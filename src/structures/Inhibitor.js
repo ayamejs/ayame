@@ -6,7 +6,7 @@ class Inhibitor extends Piece {
   }
 
   /* eslint-disable-next-line no-unused-vars */
-  async run(ctx, command) {
+  async run(msg, command) {
     return false;
   }
 }

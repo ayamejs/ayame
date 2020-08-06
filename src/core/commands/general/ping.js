@@ -7,10 +7,15 @@ class Ping extends Command {
     });
   }
 
-  async run(ctx, args) { // eslint-disable-line no-unused-vars
-    const msg = await ctx.reply("Ping?");
+  async run(msg, args) { // eslint-disable-line no-unused-vars
+    const sent = await msg.send("Pong!");
+    const timeDiff = (sent.editedAt || sent.createdAt) - (msg.editedAt || msg.createdAt);
 
-    return msg.edit(`Pong! Latency **${msg.createdTimestamp - ctx.message.createdTimestamp} ms** API Latency **${this.client.ws.ping} ms**`);
+    return sent.edit([
+      "**__Pong!__**",
+      `🔂 **Latency**: ${timeDiff} ms`,
+      `💟 **Heartbeat**: ${Math.round(this.client.ws.ping)} ms`
+    ]);
   }
 }
 

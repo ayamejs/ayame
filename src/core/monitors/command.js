@@ -1,4 +1,4 @@
-const { Monitor, CommandContext, Utils } = require("ayame");
+const { Monitor, Utils } = require("ayame");
 
 // Taken from klasa https://github.com/dirigeants/klasa
 /* eslint-disable-next-line quotes */
@@ -22,11 +22,11 @@ class CommandHandler extends Monitor {
   }
  
   async check(msg) {
-    return msg.channel.postable || (!msg.author.bot && !msg.webhookID);
+    return msg.channel.postable && (!msg.author.bot && !msg.webhookID);
   }
 
   async run(msg) {
-    console.log("minitor ran.");
+    console.log(`monitor ran by ${msg.author.tag}`);
     // Ensure the bot itself is in the member cache.
     if(msg.guild && !msg.guild.me) await msg.guild.members.fetch(this.client.user);
 
@@ -60,24 +60,19 @@ class CommandHandler extends Monitor {
     // Handle unknown commands in a seperate event.
     if(!command) return this.client.emit("commandUnknown", msg, cmd);
 
-    console.log("creating context");
-    // Create a context and prepare to execute the command.
-    const ctx = new CommandContext(this.client, msg);
-
-    // Initialize context
-    ctx.args = args;
-    ctx.flags = flags;
-    ctx.parsedContent = content;
-    ctx.command = command;
-    ctx.invokedName = cmd;
-    ctx.prefix = prefixMatch[0];
+    // Initialize message.
+    msg.prefix = prefixMatch[0];
+    msg.alias = cmd;
+    msg.command = command;
+    msg.commandFlags = flags;
+    msg.parsedContent = content;
 
     try {
       console.log("running inhibitors.");
-      await this.client.inhibitors.run(ctx, command);
+      await this.client.inhibitors.run(msg, command);
     } catch(err) {
       console.log(`failed with ${err}`);
-      this.client.emit("commandInhibited", ctx, command, err);
+      this.client.emit("commandInhibited", msg, command, err);
       return; // Do not run the command.
     }
 
@@ -87,7 +82,7 @@ class CommandHandler extends Monitor {
     this.client.commands.ran++;
     // Start typing and run the command and then stop typing.
     msg.channel.startTyping();
-    return command._run(ctx, args)
+    return command._run(msg, args)
       .then(() => msg.channel.stopTyping());
   }
 }

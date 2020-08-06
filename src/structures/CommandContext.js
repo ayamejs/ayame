@@ -1,6 +1,7 @@
 
 /**
  * Command execution context.
+ * @deprecated
  */
 class CommandContext {
   constructor(client, msg) {

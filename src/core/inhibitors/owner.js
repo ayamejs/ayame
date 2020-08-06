@@ -1,8 +1,8 @@
 const { Inhibitor } = require("../..");
 
 class OwnerInhibitor extends Inhibitor {
-  async run(ctx, command) {
-    if(command.ownerOnly && !this.client.isOwner(ctx.author))
+  async run(msg, command) {
+    if(command.ownerOnly && !this.client.isOwner(msg.author))
       return "That command can only be ran by a bot owner.";
   }
 }

@@ -27,27 +27,27 @@ class Command extends Piece {
     this.userPermissions = new Permissions(options.userPermissions || []).freeze();
   }
 
-  async _run(ctx, args) {
+  async _run(msg, args) {
     try {
       // Run the check function first.
-      const check = await this.check(ctx, args);
+      const check = await this.check(msg, args);
 
       // If the value is falsy, silently fail.
       if(!check) return;
 
       // If the value is a string reply it to the user.
-      if(typeof check === "string") return ctx.reply(check);
+      if(typeof check === "string") return msg.send(check);
 
       // Run the command.
-      const results = await this.run(ctx, args);
+      const results = await this.run(msg, args);
 
       // If the results is a string reply it to the user.
-      if(typeof results === "string") return ctx.reply(results);
+      if(typeof results === "string") return msg.send(results);
     } catch(err) {
-      if(typeof err === "string") return ctx.reply(err);
+      if(typeof err === "string") return msg.send(err);
 
       // Forward errors to commandError event.
-      this.client.emit("commandError", ctx, err);
+      this.client.emit("commandError", msg, err);
     }
   }
  
@@ -57,8 +57,11 @@ class Command extends Piece {
    * Incase of false the command won't run.
    * Incase of string the command won't run but the string is sent to the channel.
    * Incase of true the command is ran as normal.
+   *
+   * @returns {Boolean}
+   * @abstract
    */
-  async check(ctx, args) { // eslint-disable-line no-unused-vars
+  async check(msg, args) { // eslint-disable-line no-unused-vars
     return true;
   }
 
@@ -66,9 +69,9 @@ class Command extends Piece {
    * The actual command implementation, must be implemented in a subclass.
    * @abstract
    */
-  async run(ctx, args) { // eslint-disable-line no-unused-vars
-    return ctx.reply(`${this.constructor.name} does not provide a \`run()\` implementation.`);
-  } 
+  async run(msg, args) { // eslint-disable-line no-unused-vars
+    return msg.send(`Command **${this.name}** (${this.file.path}) does not provide a \`run()\` implementation.`);
+  }
 }
 
 module.exports = Command;
