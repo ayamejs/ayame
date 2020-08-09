@@ -5,6 +5,7 @@ const CommandStore = require("./structures/CommandStore.js");
 const EventStore = require("./structures/EventStore.js");
 const InhibitorStore = require("./structures/InhibitorStore.js");
 const MonitorStore = require("./structures/MonitorStore.js");
+const ArgumentStore = require("./structures/ArgumentStore.js");
 const AyameConsole = require("./utils/AyameConsole.js");
 
 class AyameClient extends Client {
@@ -20,13 +21,15 @@ class AyameClient extends Client {
     this.events = new EventStore(this);
     this.monitors = new MonitorStore(this);
     this.inhibitors = new InhibitorStore(this);
+    this.arguments = new ArgumentStore(this);
     
     this.stores = new Collection();
     
     this.registerStore(this.commands)
       .registerStore(this.events)
       .registerStore(this.monitors)
-      .registerStore(this.inhibitors);
+      .registerStore(this.inhibitors)
+      .registerStore(this.arguments);
 
     for(const store of this.stores.values()) store.registerDirectory(join(__dirname, "core"));
   }

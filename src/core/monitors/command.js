@@ -77,13 +77,21 @@ class CommandHandler extends Monitor {
       return; // Do not run the command.
     }
 
-    console.log("running cmd");
+    try {
+      await this.client.arguments.run(msg);
+    } catch(err) {
+      if(typeof err === "string") return msg.send(err);
+      console.error(`Arg parse: ${err}`);
+      throw err;
+    }
+
+    console.log(`running cmd ${command.name}`);
 
     // Increment the counter.
     this.client.commands.ran++;
     // Start typing and run the command and then stop typing.
     msg.channel.startTyping();
-    return command._run(msg, args)
+    return command._run(msg, msg.args)
       .then(() => msg.channel.stopTyping());
   }
 }
