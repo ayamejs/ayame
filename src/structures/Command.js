@@ -46,6 +46,12 @@ class Command extends Piece {
      * @type {Boolean}
      */
     this.nsfw = options.nsfw || false;
+
+    /**
+     * Wether to parse quotes.
+     * @type {Boolean}
+     */
+    this.quotes = typeof options.quoted !== "undefined" ? options.quotes : true;
     
     /**
      * The category this command belongs to.

@@ -23,9 +23,7 @@ class ArgumentStore extends Store {
     // Object to fill.
     const args = {};
 
-    // TODO: parse quotes.
-    // I'm making a @ayamejs/quotes library, release very soon.
-    const split = quotes.parse(msg.rawArgs);
+    const split = command.quotes ? quotes.parse(msg.rawArgs) : msg.rawArgs.split(/ +/g);
     
     for(let i = 0; i < command.usage.parsed.length; i++) {
       const tag = command.usage.parsed[i]; // The current tag we are parsing.
