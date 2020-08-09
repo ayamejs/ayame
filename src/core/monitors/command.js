@@ -8,7 +8,8 @@ const delim = new RegExp("(\\s)(?:\\s)+");
 
 class CommandHandler extends Monitor {
   constructor(...args) {
-    super(...args); 
+    super(...args);
+    this.ignoreEdits = !this.client.options.commandEditing;
   }
 
   getFlags(content) {
