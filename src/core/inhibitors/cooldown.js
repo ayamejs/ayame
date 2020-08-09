@@ -1,4 +1,4 @@
-const { Inhibitor } = require("../..");
+const { Inhibitor } = require("ayame");
 
 class CooldownInhibitor extends Inhibitor {
   constructor(...args) {

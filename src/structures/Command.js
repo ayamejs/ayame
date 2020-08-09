@@ -18,7 +18,7 @@ class Command extends Piece {
     this.nsfw = options.nsfw || false;
     // File path is like general/ping.js we split by / and take general title-cased if not provided.
     this.category = options.category || Utils.toProperCase(file.path.split(path.sep)[0]) || "General";
-    this.guildOnly = options.guildOnly || false;
+    this.channel = options.channel || null;
     this.hidden = options.hidden || false;
     this.usage = options.usage || this.name;
 
