@@ -1,4 +1,5 @@
 const Store = require("./Store.js");
+const quotes = require("@ayamejs/quotes");
 
 class ArgumentStore extends Store {
   constructor(client) {
@@ -24,7 +25,7 @@ class ArgumentStore extends Store {
 
     // TODO: parse quotes.
     // I'm making a @ayamejs/quotes library, release very soon.
-    const split = msg.rawArgs.split(/ +/g);
+    const split = quotes.parse(msg.rawArgs);
     
     for(let i = 0; i < command.usage.parsed.length; i++) {
       const tag = command.usage.parsed[i]; // The current tag we are parsing.
