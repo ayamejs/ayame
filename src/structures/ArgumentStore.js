@@ -49,7 +49,18 @@ class ArgumentStore extends Store {
       } else {
         // Next if it wasn't rest args: is to run the argument parser for the given tag once.
         // The argument can throw an error to halt.
-        args[tag.name] = await arg.run(msg, given, tag);
+        args[tag.name] = await arg.run(msg, given, tag)
+          .catch(err => {
+            // TODO:
+            // for cases people do optional args before a required one, e.g:
+            // [channel:channel] <message:string...>
+            // If we do #general text, should parse correctly.
+            // If we do some text, then "some" wouldn't parse as a channel
+            // but we should instead have a way to unshift it back to be considered a part of the text.
+            if(!tag.required && this.client.options.optionalArgumentsFailSilently)
+              return;
+            throw err;
+          });
       }
     }
 
