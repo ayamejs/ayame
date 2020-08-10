@@ -8,7 +8,8 @@ class Eval extends Command {
       description: "Evaluates arbitrary JavaScript",
       ownerOnly: true,
       usage: "<code:content>",
-      aliases: ["ev"]
+      aliases: ["ev"],
+      quotes: false
     });
   }
 

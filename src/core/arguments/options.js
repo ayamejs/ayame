@@ -19,7 +19,8 @@ class Options extends Argument {
       const argument = this.store.get(option);
       if(!arg) throw `Invalid argument type **${option}**`;
       try {
-        return argument.run(msg, arg, tag);
+        const results = await argument.run(msg, arg, tag);
+        return results;
       } catch(err) {
         continue;
       }
