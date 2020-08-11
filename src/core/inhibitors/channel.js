@@ -9,8 +9,6 @@ class ChannelInhibitor extends Inhibitor {
     
     if(command.channel === "dm" && msg.channel.type !== "dm")
       return "You can only use this command in a DM channel.";
-
-    return `Command **${command.name}** has an invalid "channel" value: ${command.channel}`;
   }
 }
 
