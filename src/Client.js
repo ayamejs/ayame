@@ -1,4 +1,4 @@
-const { Client, Collection, Util: { mergeDefault }, Permissions } = require("discord.js");
+const { Client, Collection, Util: { mergeDefault }, Permissions, User } = require("discord.js");
 const { dirname, join } = require("path");
 
 // structures
@@ -127,16 +127,17 @@ class AyameClient extends Client {
   }
 
   /**
-   * Checks if the given user is an owner.
-   * @param {string} user A resolvable snowflake user id.
-   * @returns Boolean
+   * Who are the owners for this bot?
+   * @type {Set<User>}
+   * @readonly
    */
-  isOwner(user) {
-    const id = this.users.resolveID(user);
-
-    return Array.isArray(this.options.owner) ?
-      this.options.owner.includes(id) :
-      this.options.owner === id;
+  get owners() {
+    const owners = new Set();
+    for (const owner of this.options.owners) {
+      const user = this.users.resolveID(owner);
+      if (user) owners.add(user);
+    }
+    return owners;
   }
 
   /**
