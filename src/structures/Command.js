@@ -71,6 +71,12 @@ class Command extends Piece {
      */
     this.hidden = options.hidden || false;
 
+    /**
+     * Argument seperator.
+     * @type {String}
+     */
+    this.seperator = typeof options.seperator === "string" ? options.seperator : " ";
+
     // Cache the parsed usage.
     this.usage = options.usage ? {
       raw: options.usage,

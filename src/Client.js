@@ -28,11 +28,17 @@ class AyameClient extends Client {
     this.stores = new Collection();
     
     this.registerStore(this.commands)
-        .registerStore(this.events)
-        .registerStore(this.monitors)
-        .registerStore(this.inhibitors)
-        .registerStore(this.arguments)
-        .registerStore(this.locales);
+      .registerStore(this.events)
+      .registerStore(this.monitors)
+      .registerStore(this.inhibitors)
+      .registerStore(this.arguments)
+      .registerStore(this.locales);
+
+    /**
+     * The provider being used if any.
+     * @type {?Provider}
+     */
+    this.provider = null;
 
     for(const store of this.stores.values()) store.registerDirectory(join(__dirname, "core"));
   }
@@ -70,6 +76,15 @@ class AyameClient extends Client {
     const loaded = await Promise.all(this.stores.map((store) => store.loadAll().then((size) => [size, store])));
 
     for(const store of loaded) this.emit("piecesLoaded", store[1].name, store[0]);
+  }
+
+  /**
+   * Sets and initializes the given provider.
+   */
+  async setProvider(provider) {
+    this.provider = provider;
+    await this.provider.init();
+    return provider;
   }
 }
 

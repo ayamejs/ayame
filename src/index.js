@@ -4,6 +4,7 @@ module.exports = {
   AyameDMChannel: require("./extensions/AyameDMChannel.js"),
   AyameTextChannel: require("./extensions/AyameTextChannel.js"),
   AyameMessage: require("./extensions/AyameMessage.js"),
+  AyameGuild: require("./extensions/AyameGuild.js"),
 
   Client: require("./Client.js"),
   AyameClient: require("./Client.js"),
@@ -31,6 +32,12 @@ module.exports = {
 
   Locale: require("./structures/Locale.js"),
   LocaleStore: require("./structures/LocaleStore.js"),
+
+  // Providers.
+  Provider: require("./providers/Provider.js"),
+  SettingsHelper: require("./providers/SettingsHelper.js"),
+  MongoDBProvider: require("./providers/MongoDBProvider.js"),
+  MemoryProvider: require("./providers/MemoryProvider.js"),
 
   // Package version.
   version: require("../package.json").version

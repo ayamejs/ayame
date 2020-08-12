@@ -51,6 +51,16 @@ module.exports = Structures.extend("Message", (Message) => {
     }
 
     /**
+     * Alias message.guild.settings -> message.settings
+     * Null if the message is not from a guild.
+     * @type {?SettingsHelper}
+     * @readonly
+     */
+    get settings() {
+      return this.guild ? this.guild.settings : null;
+    }
+
+    /**
      * Grabs the whole raw arguments.
      * @type {String}
      * @readonly
@@ -97,8 +107,7 @@ module.exports = Structures.extend("Message", (Message) => {
     }
 
     get locale() {
-      // TODO: Get guild settings and pass the locale here!
-      return this.client.locales.get("dumb");
+      return this.guild ? this.guild.locale : this.client.locales.defaultLocale;
     }
 
     sendLocale(key, value = [], options) {
