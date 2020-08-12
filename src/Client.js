@@ -73,6 +73,7 @@ class AyameClient extends Client {
       .registerStore(this.inhibitors);
 
     for(const store of this.stores.values()) store.registerDirectory(join(__dirname, "core"));
+    for(const plugin of plugins) plugin.call(this);
   }
 
   /**
@@ -91,6 +92,8 @@ class AyameClient extends Client {
 
   /**
    * Checks if the given user is an owner.
+   * @param {string} user A resolvable snowflake user id.
+   * @returns Boolean
    */
   isOwner(user) {
     const id = this.users.resolveID(user);
@@ -100,13 +103,36 @@ class AyameClient extends Client {
       this.options.owner === id;
   }
 
+  /**
+   * Registers a custom store to this client.
+   * @param {Store} store The store that your base will be stored in.
+   * @returns {this} 
+   * @chainable
+   */
   registerStore(store) {
     this.stores.set(store.name, store);
     return this;
   }
 
+  /**
+	 * Un-registers a custom store from the client
+	 * @param {Store} store The store that your base will be stored in.
+	 * @returns {this}
+	 * @chainable
+	 */
+	unregisterStore(store) {
+		this.pieceStores.delete(store);
+		return this;
+	}
+
+  /**
+   * You use this to login into Discord with your bot.
+   * @param {string} token Your discord bot's token.
+   * @returns {string}
+   */
   async login(token) {
-    await this.init();
+    const loaded = await Promise.all(this.stores.map((store) => store.loadAll().then((size) => [size, store])));
+    for(const store of loaded) this.emit("piecesLoaded", store[1].name, store[0]);
     return super.login(token);
   }
 
