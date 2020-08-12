@@ -7,11 +7,13 @@ const EventStore = require("./structures/EventStore.js");
 const InhibitorStore = require("./structures/InhibitorStore.js");
 const MonitorStore = require("./structures/MonitorStore.js");
 const ArgumentStore = require("./structures/ArgumentStore.js");
+const LocaleStore = require("./structures/LocaleStore");
 
 // util
-const LocaleStore = require("./structures/LocaleStore");
 const AyameConsole = require("./utils/AyameConsole.js");
 const { DefaultOptions } = require("./utils/constants.js");
+const ArgumentStore = require("./structures/ArgumentStore.js");
+const LocaleStore = require("./structures/LocaleStore");
 
 // plugins
 const plugins = new Set();
@@ -22,18 +24,21 @@ class AyameClient extends Client {
  * @param {Options} [options = {}] Options to pass to the default client.
  */
   constructor(options = {}) {
-    super(mergeDefault(DefaultOptions, options));
+    if (options && options.constructor !== Object) throw new TypeError('The provided client options must be an object.');
+    options = mergeDefault(DefaultOptions, options)
+    super(options);
+
+    /**
+     * The directory where all users files are stored at.
+     */
+    this.userBaseDirectory = dirname(require.main.filename);
+
 
     /**
      * The AyameConsole for this client.
      * @type {AyameConsole}
      */
     this.console = options.console || new AyameConsole(this.options.console);
-
-    /**
-     * The directory where all users files are stored at.
-     */
-    this.userBaseDirectory = dirname(require.main.filename);
 
     /**
      * This is where all commands are stored.
@@ -58,8 +63,31 @@ class AyameClient extends Client {
      * @type {InhibitorStore}
      */
     this.inhibitors = new InhibitorStore(this);
+
+    /**
+     * This is where all arguments are stored.
+     * @type {ArgumentStore}
+     */
     this.arguments = new ArgumentStore(this);
+    
+    /**
+     * This is where all locales are stored.
+     * @type {LocaleStore}
+     */
     this.locales = new LocaleStore(this);
+
+    /**
+     * Application information cached from oauth2 application.
+     * @type {external:ClientApplication}
+     */
+    this.application = null;
+
+    /**
+		 * The regexp for a prefix mention
+		 * @since 0.5.0
+		 * @type {RegExp}
+		 */
+		this.mentionPrefix = null;
     
     /**
      * The registry for all stores.
