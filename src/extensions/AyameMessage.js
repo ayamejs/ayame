@@ -98,7 +98,7 @@ module.exports = Structures.extend("Message", (Message) => {
 
     get locale() {
       // TODO: Get guild settings and pass the locale here!
-      return this.client.locales.get("en-US");
+      return this.client.locales.get("dumb");
     }
 
     sendLocale(key, value = [], options) {

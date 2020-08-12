@@ -6,6 +6,10 @@ class LocaleStore extends Store {
 		super(client, "locales");
 	}
 
+	get defaultLocale() {
+		return this.get(this.client.options.defaultLocale);
+	}
+
 }
 
 module.exports = LocaleStore;
