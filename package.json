@@ -6,6 +6,7 @@
   "scripts": {
     "test": "eslint ."
   },
+  "types": "typings/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayame/ayame.git"

@@ -95,6 +95,20 @@ module.exports = Structures.extend("Message", (Message) => {
     reply(content, options) {
       return this.send(APIMessage.transformOptions(content, options, { reply: this.member || this.author }));
     }
+
+    get locale() {
+      // TODO: Get guild settings and pass the locale here!
+      return this.client.locales.get("dumb");
+    }
+
+    sendLocale(key, value = [], options) {
+      return this.send(this.locale.get(key, value), options);
+    }
+
+    replyLocale(key, value = [], options) {
+      return this.reply(this.locale.get(key, value), options);
+    }
+
   }
 
   return AyameMessage;

@@ -27,7 +27,7 @@ class CooldownInhibitor extends Inhibitor {
 
     if (difference < cooldown) { // check the if the duration the command was run, is more than the cooldown
       // Return a human-readable string to the user with the remaining seconds.
-      return `You can run this command again after **${Math.round((cooldown - difference) / 1000)}** seconds.`;
+      return msg.locale.get("INHIBITOR_COOLDOWN_ACTIVE", cooldown, difference);
     } else {
       ratelimits[command.name] = Date.now(); // set the key to now, to mark the start of the cooldown
       this.ratelimits.set(msg.author.id, ratelimits); // set it

@@ -29,6 +29,9 @@ module.exports = {
   Inhibitor: require("./structures/Inhibitor.js"),
   InhibitorStore: require("./structures/InhibitorStore.js"),
 
+  Locale: require("./structures/Locale.js"),
+  LocaleStore: require("./structures/LocaleStore.js"),
+
   // Package version.
   version: require("../package.json").version
 };
