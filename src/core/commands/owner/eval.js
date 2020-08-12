@@ -32,13 +32,13 @@ class Eval extends Command {
             method: "POST",
             body: output
           }).then((res) => res.json());
-          return msg.send(msg.locale.t("COMMAND_EVAL_OUTPUT_TOO_LONG"));
+          return msg.sendLocale("COMMAND_EVAL_OUTPUT_TOO_LONG");
         } catch (error) {
-          return msg.send(msg.locale.t("COMMAND_EVAL_HASTE_FAILED", error));
+          return msg.sendLocale("COMMAND_EVAL_HASTE_FAILED", [error]);
         }
       }
     } catch (error) {
-      return msg.send(msg.locale.t("COMMAND_EVAL_FAILED", error));
+      return msg.sendLocale("COMMAND_EVAL_FAILED", [error]);
     }
   }
 

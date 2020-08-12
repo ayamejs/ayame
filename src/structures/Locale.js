@@ -6,10 +6,7 @@ class Locale extends Piece {
 		this.name = options.name;
 		this.strings = options.strings ? options.strings : {};
 	}
-	t(key, ...args) {
-		return this.translate(key, args);
-	}
-	translate(key, ...args) {
+	get(key, args) {
 		const res = this.strings[key];
 		if (!res) return this.strings["KEY_NOT_FOUND"](key);
 		if (typeof res === "string") return res;

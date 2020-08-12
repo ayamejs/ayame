@@ -14,7 +14,7 @@ class User extends Argument {
       if(user) return user;
     }
 
-    throw msg.locale.t("ARGUMENT_BAD_USER", tag);
+    throw msg.locale.get("ARGUMENT_BAD_USER", tag);
   }
 }
 

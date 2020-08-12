@@ -7,7 +7,7 @@ class Integer extends Argument {
 
   async run(msg, arg, tag) {
     const number = parseInt(arg);
-    if(!Number.isInteger(number)) throw msg.locale.t("ARGUMENT_BAD_INTEGER");
+    if(!Number.isInteger(number)) throw msg.locale.get("ARGUMENT_BAD_INTEGER");
     return number;
   }
 }

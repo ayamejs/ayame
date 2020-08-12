@@ -14,7 +14,7 @@ class Member extends Argument {
       if(member) return member;
     }
 
-    throw msg.locale.t("ARGUMENT_BAD_MEMBER");
+    throw msg.locale.get("ARGUMENT_BAD_MEMBER");
   }
 }
 

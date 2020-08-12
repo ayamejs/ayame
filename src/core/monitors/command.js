@@ -11,9 +11,10 @@ class CommandHandler extends Monitor {
     super(...args);
     this.ignoreEdits = !this.client.options.commandEditing;
     this.prefixReminder = null;
-    this.client.on("ready", () => {
-      this.prefixReminder = new RegExp(`<@!?${this.client.user.id}>(?:\s+)?`);
-    })
+  }
+
+  init() {
+    this.prefixReminder = new RegExp(`<@!?${this.client.user.id}>(?:\s+)?`);
   }
 
   getFlags(content) {
@@ -44,7 +45,7 @@ class CommandHandler extends Monitor {
 
     // Check for @mention only.
     if(this.prefixReminder.test(msg.content))
-      return msg.channel.send(msg.locale.t("PREFIX_REMINDER", prefix));
+      return msg.sendLocale("PREFIX_REMINDER", prefix);
 
     const prefixMatch = new RegExp(`^<@!?${this.client.user.id}> |^${Utils.escapeRegex(prefix)}`, "i")
       .exec(msg.content);

@@ -22,7 +22,7 @@ class Channel extends Argument {
       if(channel) return channel;
     }
 
-    throw msg.locale.t("ARGUMENT_BAD_CHANNEL", tag);
+    throw msg.locale.get("ARGUMENT_BAD_CHANNEL", tag);
   }
 }
 

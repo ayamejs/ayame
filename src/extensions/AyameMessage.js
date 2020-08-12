@@ -101,6 +101,14 @@ module.exports = Structures.extend("Message", (Message) => {
       return this.client.locales.get("en-US");
     }
 
+    sendLocale(key, value = [], options) {
+      return this.send(this.locale.get(key, value), options);
+    }
+
+    replyLocale(key, value = [], options) {
+      return this.reply(this.locale.get(key, value), options);
+    }
+
   }
 
   return AyameMessage;

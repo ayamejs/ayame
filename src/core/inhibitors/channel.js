@@ -5,10 +5,10 @@ class ChannelInhibitor extends Inhibitor {
     if(!command.channel) return;
 
     if(command.channel === "guild" && !msg.guild)
-      return msg.locale.t("INHIBITOR_CHANNEL_GUILD_ONLY");
+      return msg.locale.get("INHIBITOR_CHANNEL_GUILD_ONLY");
     
     if(command.channel === "dm" && msg.channel.type !== "dm")
-      return msg.locale.t("INHIBITOR_CHANNEL_DM_ONLY");
+      return msg.locale.get("INHIBITOR_CHANNEL_DM_ONLY");
   }
 }
 
