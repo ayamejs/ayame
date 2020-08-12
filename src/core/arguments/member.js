@@ -14,7 +14,7 @@ class Member extends Argument {
       if(member) return member;
     }
 
-    throw `**${tag.name}** must be a valid user mention or ID.`;
+    throw msg.locale.t("ARGUMENT_BAD_MEMBER");
   }
 }
 

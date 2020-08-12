@@ -18,15 +18,13 @@ class PermissionsInhibitor extends Inhibitor {
       msg.channel.permissionsFor(msg.author).missing(command.userPermissions);
 
     if(user.length > 0) {
-      return `You do not have the following permission${user.length === 1 ? "" : "s"} to run this command: \`${
-        user.map((p) => this.friendlyPerms[p]).join(", ")}\``;
+      return msg.locale.t("INHIBITOR_PERMISSIONS_MISSING_USER", user, this.friendlyPerms);
     }
 
     // Now check if the bot has the permissions to perform the intended action.
     const bot = msg.channel.permissionsFor(this.client.user).missing(command.botPermissions);
     if(bot.length > 0) {
-      return `I need the following permission${bot.length === 1 ? "" : "s"} to do that: \`${
-        bot.map((p) => this.friendlyPerms[p]).join(", ")}\``;
+      return msg.locale.t("INHIBITOR_PERMISSIONS_MISSING_BOT", bot, this.friendlyPerms);
     }
 
     return false;

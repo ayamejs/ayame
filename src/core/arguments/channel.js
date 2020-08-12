@@ -22,7 +22,7 @@ class Channel extends Argument {
       if(channel) return channel;
     }
 
-    throw `**${tag.name}** must be a valid channel ID or mention.`;
+    throw msg.locale.t("ARGUMENT_BAD_CHANNEL", tag);
   }
 }
 

@@ -32,13 +32,13 @@ class Eval extends Command {
             method: "POST",
             body: output
           }).then((res) => res.json());
-          return msg.send(`Output was to long so it was uploaded to hastebin https://hastebin.com/${key}.js `);
+          return msg.send(msg.locale.t("COMMAND_EVAL_OUTPUT_TOO_LONG"));
         } catch (error) {
-          return msg.send(`I tried to upload the output to hastebin but encountered this error ${error.name}:${error.message}`);
+          return msg.send(msg.locale.t("COMMAND_EVAL_HASTE_FAILED", error));
         }
       }
     } catch (error) {
-      return msg.send(`The following error occured \`\`\`js\n${error.stack}\`\`\``);
+      return msg.send(msg.locale.t("COMMAND_EVAL_FAILED", error));
     }
   }
 
