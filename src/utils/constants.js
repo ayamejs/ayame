@@ -3,5 +3,6 @@
 module.exports.DefaultOptions = {
   commandEditing: false,
   commandTyping: false,
-  optionalArgumentsFailSilently: false
+  optionalArgumentsFailSilently: false,
+  defaultLocale: "en-US",
 };

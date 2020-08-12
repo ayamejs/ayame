@@ -9,6 +9,7 @@ const MonitorStore = require("./structures/MonitorStore.js");
 const ArgumentStore = require("./structures/ArgumentStore.js");
 
 // util
+const LocaleStore = require("./structures/LocaleStore");
 const AyameConsole = require("./utils/AyameConsole.js");
 const { DefaultOptions } = require("./utils/constants.js");
 
@@ -58,6 +59,7 @@ class AyameClient extends Client {
      */
     this.inhibitors = new InhibitorStore(this);
     this.arguments = new ArgumentStore(this);
+    this.locales = new LocaleStore(this);
     
     /**
      * The registry for all stores.
@@ -69,7 +71,14 @@ class AyameClient extends Client {
       .registerStore(this.events)
       .registerStore(this.monitors)
       .registerStore(this.inhibitors)
-      .registerStore(this.arguments);
+      .registerStore(this.arguments)
+      .registerStore(this.locales);
+
+    /**
+     * The provider being used if any.
+     * @type {?Provider}
+     */
+    this.provider = null;
 
     for(const store of this.stores.values()) store.registerDirectory(join(__dirname, "core"));
     for(const plugin of plugins) plugin.call(this);
@@ -146,6 +155,15 @@ class AyameClient extends Client {
     if (typeof plugin !== 'function') throw new TypeError('The provided module does not include a plugin function.');
     plugins.add(plugin);
     return this;
+  }
+
+  /**
+   * Sets and initializes the given provider.
+   */
+  async setProvider(provider) {
+    this.provider = provider;
+    await this.provider.init();
+    return provider;
   }
 }
 

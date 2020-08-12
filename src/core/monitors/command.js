@@ -10,6 +10,11 @@ class CommandHandler extends Monitor {
   constructor(...args) {
     super(...args);
     this.ignoreEdits = !this.client.options.commandEditing;
+    this.prefixReminder = null;
+  }
+
+  init() {
+    this.prefixReminder = new RegExp(`<@!?${this.client.user.id}>(?:\s+)?`);
   }
 
   getFlags(content) {
@@ -38,10 +43,9 @@ class CommandHandler extends Monitor {
     const prefix = await this.client.getPrefix(msg);
     console.log(`prefix ${prefix}`);
 
-    // TODO: Localization or some means to allow the user to change the responses.
     // Check for @mention only.
-    if(msg.content === this.client.user.toString() || (msg.guild && msg.content === msg.guild.me.toString()))
-      return msg.channel.send(`Hi! Run \`${prefix}help\` to get a list of commands you can use.`);
+    if(this.prefixReminder.test(msg.content))
+      return msg.sendLocale("PREFIX_REMINDER", prefix);
 
     const prefixMatch = new RegExp(`^<@!?${this.client.user.id}> |^${Utils.escapeRegex(prefix)}`, "i")
       .exec(msg.content);

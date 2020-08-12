@@ -23,7 +23,7 @@ class ArgumentStore extends Store {
     // Object to fill.
     const args = {};
 
-    const split = command.quotes ? quotes.parse(msg.rawArgs) : msg.rawArgs.split(/ +/g);
+    const split = command.quotes ? quotes.parse(msg.rawArgs, command.seperator) : msg.rawArgs.split(/ +/g);
     
     for(let i = 0; i < command.usage.parsed.length; i++) {
       const tag = command.usage.parsed[i]; // The current tag we are parsing.

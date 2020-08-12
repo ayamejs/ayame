@@ -51,6 +51,16 @@ module.exports = Structures.extend("Message", (Message) => {
     }
 
     /**
+     * Alias message.guild.settings -> message.settings
+     * Null if the message is not from a guild.
+     * @type {?SettingsHelper}
+     * @readonly
+     */
+    get settings() {
+      return this.guild ? this.guild.settings : null;
+    }
+
+    /**
      * Grabs the whole raw arguments.
      * @type {String}
      * @readonly
@@ -95,6 +105,19 @@ module.exports = Structures.extend("Message", (Message) => {
     reply(content, options) {
       return this.send(APIMessage.transformOptions(content, options, { reply: this.member || this.author }));
     }
+
+    get locale() {
+      return this.guild ? this.guild.locale : this.client.locales.defaultLocale;
+    }
+
+    sendLocale(key, value = [], options) {
+      return this.send(this.locale.get(key, value), options);
+    }
+
+    replyLocale(key, value = [], options) {
+      return this.reply(this.locale.get(key, value), options);
+    }
+
   }
 
   return AyameMessage;
