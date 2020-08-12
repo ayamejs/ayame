@@ -2,7 +2,7 @@ const { Inhibitor } = require("ayame");
 
 class OwnerInhibitor extends Inhibitor {
   async run(msg, command) {
-    if(command.ownerOnly && !this.client.isOwner(msg.author))
+    if(command.ownerOnly && !this.client.owners.has(msg.author))
       return msg.locale.get("INHIBITOR_OWNER_ONLY");
   }
 }

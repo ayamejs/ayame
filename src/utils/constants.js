@@ -5,4 +5,6 @@ module.exports.DefaultOptions = {
   commandTyping: false,
   optionalArgumentsFailSilently: false,
   defaultLocale: "en-US",
+  owners: [],
+  prefix: "!"
 };

@@ -10,7 +10,7 @@ class CooldownInhibitor extends Inhibitor {
     // No cooldown provided.
     if(!command.cooldown) return false;
     // Owner is immune to cooldown.
-    if(this.client.isOwner(msg.author)) return false;
+    if(this.client.owners.has(msg.author)) return false;
 
     return this.ratelimit(msg, command);
   }

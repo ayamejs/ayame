@@ -14,7 +14,7 @@ class PermissionsInhibitor extends Inhibitor {
     if(msg.channel.type !== "text") return false; // No permissions in DMs.
 
     // Check if user has permissions to run the command. Owner gets a bypass.
-    const user = this.client.isOwner(msg.author) ? [] :
+    const user = this.client.owners.has(msg.author) ? [] :
       msg.channel.permissionsFor(msg.author).missing(command.userPermissions);
 
     if(user.length > 0) {
