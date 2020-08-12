@@ -159,6 +159,15 @@ class AyameClient extends Client {
 	unregisterStore(store) {
 		this.pieceStores.delete(store);
 		return this;
+  }
+  
+  /**
+	 * Uses discordjs to fetch the oauth application and cache it.
+	 * @returns {external:ClientApplication}
+	 */
+	async fetchApplication() {
+		this.application = await super.fetchApplication();
+		return this.application;
 	}
 
   /**
