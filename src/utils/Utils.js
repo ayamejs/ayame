@@ -19,23 +19,6 @@ class Utils {
     return str.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
   }
 
-  // Convert milliseconds into human readable string.
-  static getDuration(time) {
-    const seconds = Math.floor(time / 1000) % 60 ;
-    const minutes = Math.floor((time / (1000 * 60)) % 60);
-    const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
-    const days = Math.floor((time / (1000 * 60 * 60 * 24)) % 7);
-    return [`${days} Days`, `${hours} Hours`, `${minutes} Minutes`,
-      `${seconds} Seconds`].filter((time) => !time.startsWith("0")).join(", ");
-  }
- 
-  static getCodeBlock(txt) {
-    const match = /^```(\S*)\n?([^]*)\n?```$/.exec(txt);
-    if(!match) return { lang: null, code: txt };
-    if(match[1] && !match[2]) return { lang: null, code: match[1] };
-    return { lang: match[1], code: match[2] };
-  }
-
   // This piece of code is taken from fs-nextra by BDISTIN
   // MIT Licensed
   // I just didn't want to add a dependency I wouldn't use more than once.
