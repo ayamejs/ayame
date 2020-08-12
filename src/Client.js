@@ -6,10 +6,6 @@ const CommandStore = require("./structures/CommandStore.js");
 const EventStore = require("./structures/EventStore.js");
 const InhibitorStore = require("./structures/InhibitorStore.js");
 const MonitorStore = require("./structures/MonitorStore.js");
-const CommandStore = require("./structures/CommandStore.js");
-const EventStore = require("./structures/EventStore.js");
-const MonitorStore = require("./structures/MonitorStore.js");
-const InhibitorStore = require("./structures/InhibitorStore.js");
 
 // util
 const AyameConsole = require("./utils/AyameConsole.js");
