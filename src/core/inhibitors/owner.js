@@ -1,4 +1,4 @@
-const { Inhibitor } = require("../..");
+const { Inhibitor } = require("ayame");
 
 class OwnerInhibitor extends Inhibitor {
   async run(msg, command) {

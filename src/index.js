@@ -14,6 +14,9 @@ module.exports = {
   Piece: require("./structures/Piece.js"),
   Store: require("./structures/Store.js"),
 
+  Argument: require("./structures/Argument.js"),
+  ArgumentStore: require("./structures/ArgumentStore.js"),
+
   Command: require("./structures/Command.js"),
   CommandStore: require("./structures/CommandStore.js"),
 

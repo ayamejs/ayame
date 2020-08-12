@@ -7,20 +7,19 @@ class Eval extends Command {
     super(...args, {
       description: "Evaluates arbitrary JavaScript",
       ownerOnly: true,
-      usage: "<code>",
-      aliases: ["ev"]
+      usage: "<code:content>",
+      aliases: ["ev"],
+      quotes: false
     });
   }
 
-  async run(msg, args) {
-    if(!args.length) return msg.send("Baka! You need to give me code to evaluate.");
-
+  async run(msg, { code }) {
     const { clean, client } = this;
     const token = client.token.split("").join("[^]{0,2}");
     const rev = client.token.split("").reverse().join("[^]{0,2}");
     const filter = new RegExp(`${token}|${rev}`, "g");
     try {
-      let output = eval(msg.rawArgs);
+      let output = eval(code);
       if (output instanceof Promise || (Boolean(output) && typeof output.then === "function" && typeof output.catch === "function")) output = await output;
       output = inspect(output, { depth: 0, maxArrayLength: null });
       output = output.replace(filter, "[TOKEN]");

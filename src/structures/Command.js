@@ -2,6 +2,7 @@ const { Permissions } = require("discord.js");
 const Piece = require("./Piece.js");
 const path = require("path");
 const Utils = require("../utils/Utils.js");
+const usage = require("@ayamejs/usage");
 
 /**
  * Command represents a runnable command.
@@ -10,17 +11,71 @@ class Command extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
 
+    /**
+     * The command description.
+     * @type {String}
+     */
     this.description = options.description || "No Description Provided.";
+
+    /**
+     * An extended help message for this command.
+     * @type {String}
+     */
     this.extendedHelp = options.extendedHelp || "No extended help provided.";
+
+    /**
+     * Wether this command can only be used by the bot owner(s)
+     * @type {Boolean}
+     */
     this.ownerOnly = options.ownerOnly || false;
+
+    /**
+     * Command aliases.
+     * @type {String[]}
+     */
     this.aliases = options.aliases || [];
+
+    /**
+     * Command cooldown in seconds.
+     * @type {Number}
+     */
     this.cooldown = options.cooldown || 0;
+
+    /**
+     * Wether this command can only be used in NSFW-enabled channels.
+     * @type {Boolean}
+     */
     this.nsfw = options.nsfw || false;
-    // File path is like general/ping.js we split by / and take general title-cased if not provided.
+
+    /**
+     * Wether to parse quotes.
+     * @type {Boolean}
+     */
+    this.quotes = typeof options.quoted !== "undefined" ? options.quotes : true;
+    
+    /**
+     * The category this command belongs to.
+     * @type {String}
+     */
     this.category = options.category || Utils.toProperCase(file.path.split(path.sep)[0]) || "General";
-    this.guildOnly = options.guildOnly || false;
+
+    /**
+     * If given, the restricted channel this command can only be used in.
+     * @type {?String}
+     */
+    this.channel = options.channel || null;
+
+    /**
+     * Wether this command is hidden.
+     * @type {Boolean}
+     */
     this.hidden = options.hidden || false;
-    this.usage = options.usage || this.name;
+
+    // Cache the parsed usage.
+    this.usage = options.usage ? {
+      raw: options.usage,
+      parsed: usage.parse(options.usage)
+    } : null;
 
     // Permissions
     this.botPermissions = new Permissions(options.botPermissions || []).freeze();

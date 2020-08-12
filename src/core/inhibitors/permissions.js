@@ -1,6 +1,5 @@
-const { Inhibitor } = require("../..");
+const { Inhibitor, Utils } = require("ayame");
 const { Permissions } = require("discord.js");
-const { Utils } = require("../..");
 
 class PermissionsInhibitor extends Inhibitor {
   constructor(...args) {
