@@ -1,16 +1,22 @@
 const { Client, Collection, Util: { mergeDefault }, Permissions } = require("discord.js");
-const { DefaultOptions } = require("./utils/constants.js");
 const { dirname, join } = require("path");
+
+// structures
 const CommandStore = require("./structures/CommandStore.js");
 const EventStore = require("./structures/EventStore.js");
 const InhibitorStore = require("./structures/InhibitorStore.js");
 const MonitorStore = require("./structures/MonitorStore.js");
-const AyameConsole = require("./utils/AyameConsole.js");
-const AyameConsole = require("./utils/AyameConsole.js");
 const CommandStore = require("./structures/CommandStore.js");
 const EventStore = require("./structures/EventStore.js");
 const MonitorStore = require("./structures/MonitorStore.js");
 const InhibitorStore = require("./structures/InhibitorStore.js");
+
+// util
+const AyameConsole = require("./utils/AyameConsole.js");
+const { DefaultOptions } = require("./utils/constants.js");
+
+// plugins
+const plugins = new Set();
 
 class AyameClient extends Client {
   constructor(options = {}) {
