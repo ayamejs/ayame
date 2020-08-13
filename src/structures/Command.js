@@ -5,9 +5,37 @@ const Utils = require("../utils/Utils.js");
 const usage = require("@ayamejs/usage");
 
 /**
+ * @typedef {Object} CommandOptions
+ * @property {String} [name=file.name] - Command's name.
+ * @property {String} [description] - Short description for the command.
+ * @property {String} [extendedHelp] - An extended help message.
+ * @property {Boolean} [ownerOnly=false] - Wether to restrict this command to bot owners only.
+ * @property {Array<String>} [aliases] - Aliases for this command.
+ * @property {Number} [cooldown=0] - Cooldown in seconds.
+ * @property {Boolean} [nsfw=false] - Wether to restrict this command to NSFW channels only.
+ * @property {Boolean} [quotes=true] - Wether to parse quoted arguments.
+ * @property {String} [category] - The category the command belongs to.
+ * @property {String} [channel=null] - The channel to restrict this command to. ('guild' or 'dm')
+ * @property {Boolean} [hidden=false] - Wether to mark this command as hidden.
+ * @property {String} [seperator=" "] - Seperator character to split arguments on.
+ * @property {String} [usage] - The usage string describing the arguments.
+ * @property {Permissions} [botPermissions] - The permissions the bot needs to perform this command.
+ * @property {Permissions} [userPermissions] - The permissions the user needs to run this command.
+ */
+
+/**
  * Command represents a runnable command.
+ * @extends Piece
  */
 class Command extends Piece {
+
+  /**
+   * Constructs a new command.
+   * @param {AyameClient} client - The Discord client.
+   * @param {Store} store - The store this command belongs to.
+   * @param {Object} file - File path information.
+   * @param {CommandOptions} [options] - Command options.
+   */
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
 
@@ -83,8 +111,16 @@ class Command extends Piece {
       parsed: usage.parse(options.usage)
     } : null;
 
-    // Permissions
+    /**
+     * The permissions the bot needs in order to perform the command.
+     * @type {Permissions}
+     */
     this.botPermissions = new Permissions(options.botPermissions || []).freeze();
+
+    /**
+     * The permissions the user needs to execute this command.
+     * @type {Permissions}
+     */
     this.userPermissions = new Permissions(options.userPermissions || []).freeze();
   }
 
@@ -119,6 +155,8 @@ class Command extends Piece {
    * Incase of string the command won't run but the string is sent to the channel.
    * Incase of true the command is ran as normal.
    *
+   * @param {Message} message - The message.
+   * @param {Object} args - The parsed arguments.
    * @returns {Boolean}
    * @abstract
    */
@@ -128,6 +166,8 @@ class Command extends Piece {
 
   /**
    * The actual command implementation, must be implemented in a subclass.
+   * @param {Message} message - The message.
+   * @param {Object} args - The parsed arguments.
    * @abstract
    */
   async run(msg, args) { // eslint-disable-line no-unused-vars

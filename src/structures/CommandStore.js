@@ -1,11 +1,27 @@
 const Store = require("./Store.js");
 const { Collection } = require("discord.js");
 
+/**
+ * The store that holds commands.
+ * @extends Store
+ */
 class CommandStore extends Store {
+  /**
+   * @param {AyameClient} client
+   */
   constructor(client) {
     super(client, "commands");
 
+    /**
+     * Command aliases.
+     * @type {Collection<String, Command>}
+     */
     this.aliases = new Collection();
+
+    /**
+     * Counter of how many commands are ran.
+     * @type {Number}
+     */
     this.ran = 0;
   }
 
@@ -49,6 +65,7 @@ class CommandStore extends Store {
 
   /**
    * Return list of usable commands in context of the given message.
+   * @param {Message} msg - The message context.
    */
   usableCommands(msg) {
     return this.array().filter((command) => {

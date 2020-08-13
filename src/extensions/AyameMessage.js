@@ -3,6 +3,7 @@ const { Structures, APIMessage } = require("discord.js");
 module.exports = Structures.extend("Message", (Message) => {
   /**
    * Ayame's extended message object.
+   * @extends Message
    */
   class AyameMessage extends Message {
     constructor(...args) {
@@ -117,7 +118,6 @@ module.exports = Structures.extend("Message", (Message) => {
     replyLocale(key, value = [], options) {
       return this.reply(this.locale.get(key, value), options);
     }
-
   }
 
   return AyameMessage;

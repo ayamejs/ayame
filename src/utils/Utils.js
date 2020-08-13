@@ -4,17 +4,30 @@ const { promises: { lstat, readdir } } = require("fs");
 const path = require("path");
 
 /**
- * Static class with utilities used throughout the bot.
+ * Static class with some utilities.
+ * @static
  */
 class Utils {
   constructor() {
     throw new Error("Utils is a static class and cannot be instantiated.");
   }
   
+  /**
+   * Uppercases first letter of every word, e.g hello world -> Hello World
+   * @param {String} str - The string to proper case.
+   * @returns {String}
+   * @static
+   */
   static toProperCase(str) {
     return str.replace(/([^\W_]+[^\s-]*) */g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   }
 
+  /**
+   * Escapes regular expression sensitive characters.
+   * @param {String} str - The string to escape.
+   * @returns {String}
+   * @static
+   */
   static escapeRegex(str) {
     return str.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
   }

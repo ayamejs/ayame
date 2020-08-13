@@ -9,6 +9,9 @@ const ArgumentStore = require("./structures/ArgumentStore.js");
 const LocaleStore = require("./structures/LocaleStore");
 const AyameConsole = require("./utils/AyameConsole.js");
 
+/**
+ * The extended discord.js client.
+ */
 class AyameClient extends Client {
   constructor(options = {}) {
     super(mergeDefault(DefaultOptions, options));
@@ -53,6 +56,7 @@ class AyameClient extends Client {
 
   /**
    * Checks if the given user is an owner.
+   * @param {UserResolveable} user - The user to check.
    */
   isOwner(user) {
     const id = this.users.resolveID(user);
@@ -62,6 +66,11 @@ class AyameClient extends Client {
       this.options.owner === id;
   }
 
+  /**
+   * Registers a new store to load from.
+   * Must be called before client is logged in.
+   * @param {Store} store - The store to register.
+   */
   registerStore(store) {
     this.stores.set(store.name, store);
     return this;
