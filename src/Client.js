@@ -21,7 +21,7 @@ class AyameClient extends Client {
 
     this.console = options.console || new AyameConsole();
 
-    this.userBaseDirectory = dirname(require.main.filename);
+    this.userBaseDirectory = options.baseDirectory || dirname(require.main.filename);
 
     this.gateways = new GatewayManager(this);
 
