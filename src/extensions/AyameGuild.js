@@ -1,12 +1,11 @@
 const { Structures } = require("discord.js");
-const SettingsHelper = require("../providers/SettingsHelper.js");
 
 module.exports = Structures.extend("Guild", (Guild) => {
   class AyameGuild extends Guild {
     constructor(...args) {
       super(...args);
 
-      this.settings = new SettingsHelper(this.client, this);
+      this.settings = this.client.gateways.guilds.get(this.id, true);
     }
 
     get locale() {

@@ -8,6 +8,9 @@ const MonitorStore = require("./structures/MonitorStore.js");
 const ArgumentStore = require("./structures/ArgumentStore.js");
 const LocaleStore = require("./structures/LocaleStore");
 const AyameConsole = require("./utils/AyameConsole.js");
+const GatewayManager = require("./settings/GatewayManager.js");
+const Gateway = require("./settings/Gateway.js");
+const ProviderStore = require("./structures/ProviderStore.js");
 
 /**
  * The extended discord.js client.
@@ -20,6 +23,8 @@ class AyameClient extends Client {
 
     this.userBaseDirectory = dirname(require.main.filename);
 
+    this.gateways = new GatewayManager(this);
+
     // Stores.
     this.commands = new CommandStore(this);
     this.events = new EventStore(this);
@@ -27,6 +32,7 @@ class AyameClient extends Client {
     this.inhibitors = new InhibitorStore(this);
     this.arguments = new ArgumentStore(this);
     this.locales = new LocaleStore(this);
+    this.providers = new ProviderStore(this);
     
     this.stores = new Collection();
     
@@ -35,7 +41,20 @@ class AyameClient extends Client {
       .registerStore(this.monitors)
       .registerStore(this.inhibitors)
       .registerStore(this.arguments)
-      .registerStore(this.locales);
+      .registerStore(this.locales)
+      .registerStore(this.providers);
+
+    // Initialize gateways.
+    // Guilds is always available as it is needed for prefix/language
+    // Other gateways are optional and can be disabled.
+    // More gateways can be added manually.
+    this.gateways.register(new Gateway(this, "guilds", this.options.gateways.guilds));
+    
+    if(this.options.gateways.users)
+      this.gateways.register(new Gateway(this, "users", this.options.gateways.users));
+
+    if(this.options.gateways.client)
+      this.gateways.register(new Gateway(this, "clientStorage", this.options.gateways.client));
 
     /**
      * The provider being used if any.
@@ -77,7 +96,9 @@ class AyameClient extends Client {
   }
 
   async login(token) {
+    // Load all pieces.
     await this.init();
+
     return super.login(token);
   }
 

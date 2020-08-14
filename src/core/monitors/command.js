@@ -10,11 +10,6 @@ class CommandHandler extends Monitor {
   constructor(...args) {
     super(...args);
     this.ignoreEdits = !this.client.options.commandEditing;
-    this.prefixReminder = null;
-  }
-
-  init() {
-    this.prefixReminder = new RegExp(`<@!?${this.client.user.id}>(?:\s+)?`);
   }
 
   getFlags(content) {
@@ -36,15 +31,11 @@ class CommandHandler extends Monitor {
     // Ensure the bot itself is in the member cache.
     if(msg.guild && !msg.guild.me) await msg.guild.members.fetch(this.client.user);
 
-    // TODO: At the moment i'm rushing to release
-    // but we really need to think of a way to manage databases.
-    // This lets users call db however they want but we spam requests everytime.
-    // Plan some settings system to allow caching or similar.
-    const prefix = await this.client.getPrefix(msg);
+    const prefix = msg.guild ? msg.settings.get("prefix", this.client.options.prefix) : this.client.options.prefix;
     console.log(`prefix ${prefix}`);
 
     // Check for @mention only.
-    if(this.prefixReminder.test(msg.content))
+    if(msg.content === this.client.user.toString() || (msg.guild && msg.content === msg.guild.me.toString()))
       return msg.sendLocale("PREFIX_REMINDER", prefix);
 
     const prefixMatch = new RegExp(`^<@!?${this.client.user.id}> |^${Utils.escapeRegex(prefix)}`, "i")
@@ -94,9 +85,12 @@ class CommandHandler extends Monitor {
     // Increment the counter.
     this.client.commands.ran++;
     // Start typing and run the command and then stop typing.
-    msg.channel.startTyping();
+    if(this.client.options.commandTyping) msg.channel.startTyping();
+
     return command._run(msg, msg.args)
-      .then(() => msg.channel.stopTyping());
+      .then(() => {
+        if(this.client.options.commandTyping) return msg.channel.stopTyping();
+      });
   }
 }
 

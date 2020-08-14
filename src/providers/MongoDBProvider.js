@@ -1,56 +1,44 @@
-const Provider = require("./Provider.js");
+const Provider = require("../structures/Provider.js");
 
 class MongoDBProvider extends Provider {
-  constructor(db, collection) {
+  constructor(db) {
     super();
 
     /**
      * The MongoDB database.
      */
     this.db = db;
-
-    /**
-     * The collection this provider is handling.
-     * @type {String}
-     */
-    this.collection = collection;
   }
 
-  fetch(id, cache = true) {
-    return this.db.collection(this.collection).findOne({ id })
-      .then((doc) => {
-        if(doc && cache) this.cache.set(doc.id, doc);
-        return doc;
-      });
+  init() {
+    // TODO: connect.
+    // Actually have to get this out of here. Put it in seperate modules/some pieces repo etc.
+    // It will need to depend on mongodb package.
   }
 
-  get(id, key, defaultValue) {
-    if(this.cache.has(id)) {
-      const value = this.cache.get(id)[key];
-      return value == null ? defaultValue : value;
+  fetch(table, keys = []) {
+    if(keys.length) {
+      return this.db.collection(table).find({ id: { $in: keys } }, { projection: { _id: 0 } }).toArray();
     }
 
-    return defaultValue;
+    return this.db.collection(table).find({}, { projection: { _id: 0 } }).toArray();
+  }
+
+  get(table, id) {
+    return this.db.collection(table).findOne({ id }, { projection: { _id: 0 } });
   }
   
-  set(id, key, value) {
-    const cache = this.cache.get(id) || {};
-    cache[key] = value;
-    this.cache.set(id, cache);
-
-    return this.db.collection(this.collection).update({ id }, { $set: { [key]: value } }, { upsert: true });
+  set(table, id, key, value) {
+    return this.db.collection(table).update({ id }, { $set: { [key]: value } }, { upsert: true });
   }
 
-  delete() {
-    // TODO: Never had to delete a key before, find out how it's done lmao.
+  clear(table, id) {
+    return this.db.collection(table).deleteOne({ id });
   }
 
-  clear(id) {
-    return this.db.collection(this.collection).deleteOne({ id });
-  }
-
-  destroy() {
-    // TODO: lol.
+  shutdown() {
+    // TODO: imaginary client until we add connection logic.
+    return this.client.close();
   }
 }
 

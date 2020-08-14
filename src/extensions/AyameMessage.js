@@ -67,7 +67,7 @@ module.exports = Structures.extend("Message", (Message) => {
      * @readonly
      */
     get rawArgs() {
-      return this.content.slice(this.prefix.length).trim().slice(this.alias.length).trim();
+      return this.parsedContent.slice(this.prefix.length).trim().slice(this.alias.length).trim();
     }
 
     /**
