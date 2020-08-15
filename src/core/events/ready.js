@@ -2,6 +2,13 @@ const { Event } = require("ayame");
 const { Team } = require("discord.js");
 
 class ReadyEvent extends Event {
+  constructor(...args) {
+    super(...args, {
+      name: "onceReady",
+      event: "ready",
+      once: true
+    });
+  }
 
   async run() {
     if(!this.client.options.owner) {

@@ -4,8 +4,23 @@ class Event extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
 
-    // Wether this event should be registered as a raw event.
+    /**
+     * Whether this event should be registered as a raw event.
+     * @type {Boolean}
+     */
     this.raw = options.raw || false;
+
+    /**
+     * Whether this event should be triggered once.
+     * @type {Boolean}
+     */
+    this.once = options.once || false;
+
+    /**
+     * The event name we are listening for.
+     * @type {String}
+     */
+    this.event = options.event || this.name;
   }
 
   async _run(...args) {

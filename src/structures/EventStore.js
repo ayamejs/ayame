@@ -8,7 +8,7 @@ class EventStore extends Store {
   set(event) {
     super.set(event);
 
-    if(!event.raw) this.client.on(event.name, event._run.bind(event));
+    if(!event.raw) this.client.on(event.event, event._run.bind(event));
 
     return event;
   }
@@ -21,7 +21,7 @@ class EventStore extends Store {
   delete(name) {
     const event = this.get(name);
     if(!event) return false;
-    if(!event.raw) this.client.removeAllListeners(event.name);
+    if(!event.raw) this.client.removeAllListeners(event.event);
     return super.delete(event.name);
   }
 }

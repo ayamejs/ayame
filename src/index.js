@@ -37,8 +37,11 @@ module.exports = {
   // Providers.
   Provider: require("./structures/Provider.js"),
   ProviderStore: require("./structures/ProviderStore.js"),
-  MongoDBProvider: require("./providers/MongoDBProvider.js"),
-  MemoryProvider: require("./providers/MemoryProvider.js"),
+
+  // Settings.
+  GatewayManager: require("./settings/GatewayManager.js"),
+  Gateway: require("./settings/Gateway.js"),
+  Settings: require("./settings/Settings.js"),
 
   // Package version.
   version: require("../package.json").version
