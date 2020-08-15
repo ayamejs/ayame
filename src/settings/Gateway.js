@@ -30,7 +30,7 @@ class Gateway {
      * The provider name this gateway uses.
      * @type {Provider}
      */
-    this.providerName = provider;
+    this.providerName = typeof provider === "string" ? provider : null;
 
     /**
      * The collection where the cache for this gateway is stored.
