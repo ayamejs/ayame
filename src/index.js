@@ -43,6 +43,10 @@ module.exports = {
   Gateway: require("./settings/Gateway.js"),
   Settings: require("./settings/Settings.js"),
 
+  // External
+  usage: require("@ayamejs/usage"),
+  quotes: require("@ayamejs/quotes"),
+
   // Package version.
   version: require("../package.json").version
 };
