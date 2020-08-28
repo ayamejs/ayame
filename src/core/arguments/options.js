@@ -10,14 +10,14 @@ class Options extends Argument {
       const input = arg.toLowerCase();
 
       if(!tag.options.includes(input))
-        throw msg.locale.get("ARGUMENT_BAD_OPTIONS", tag);
+        throw msg.language.get("ARGUMENT_BAD_OPTIONS", tag);
 
       return input;
     }
 
     for(const option of tag.options) {
       const argument = this.store.get(option);
-      if(!arg) throw msg.locale.get("ARGUMENT_OPTIONS_BAD_TYPE", option);
+      if(!arg) throw msg.language.get("ARGUMENT_OPTIONS_BAD_TYPE", option);
       try {
         const results = await argument.run(msg, arg, tag);
         return results;
@@ -26,7 +26,7 @@ class Options extends Argument {
       }
     }
 
-    throw msg.locale.get("ARGUMENT_OPTIONS_NONE_MATCH", tag);
+    throw msg.language.get("ARGUMENT_OPTIONS_NONE_MATCH", tag);
   }
 }
 

@@ -31,12 +31,12 @@ class CommandHandler extends Monitor {
     // Ensure the bot itself is in the member cache.
     if(msg.guild && !msg.guild.me) await msg.guild.members.fetch(this.client.user);
 
-    const prefix = msg.guild ? msg.settings.get("prefix", this.client.options.prefix) : this.client.options.prefix;
+    const prefix = msg.guild ? msg.guild.prefix : this.client.options.prefix;
     console.log(`prefix ${prefix}`);
 
     // Check for @mention only.
     if(msg.content === this.client.user.toString() || (msg.guild && msg.content === msg.guild.me.toString()))
-      return msg.sendLocale("PREFIX_REMINDER", prefix);
+      return msg.sendLocale("PREFIX_REMINDER", [prefix]);
 
     const prefixMatch = new RegExp(`^<@!?${this.client.user.id}> |^${Utils.escapeRegex(prefix)}`, "i")
       .exec(msg.content);

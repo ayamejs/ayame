@@ -27,8 +27,6 @@ class ReadyEvent extends Event {
       this.client.gateways.clientStorage.cache.set(this.client.user.id, this.client);
     }
 
-    // Initialize providers first.
-    await this.client.providers.init();
     // Synchronize settings before initializing other stores.
     await this.client.gateways.syncAll();
 

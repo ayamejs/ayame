@@ -50,6 +50,16 @@ class Provider extends Piece {
   }
 
   /**
+   * Updates multiple keys with an object.
+   * @param {String} table - The table to update from.
+   * @param {String} id - ID of the entry.
+   * @param {Object} obj - Something to update.
+   */
+  update() {
+    throw notImpl(this, "update");
+  }
+
+  /**
    * Clears an entry from the database.
    * @param {String} table - The table to delete from.
    * @param {String} id - ID of the entry.

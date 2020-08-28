@@ -4,11 +4,11 @@ class ChannelInhibitor extends Inhibitor {
   async run(msg, command) {
     if(!command.channel) return;
 
-    if(command.channel === "guild" && !msg.guild)
-      return msg.locale.get("INHIBITOR_CHANNEL_GUILD_ONLY");
-    
-    if(command.channel === "dm" && msg.channel.type !== "dm")
-      return msg.locale.get("INHIBITOR_CHANNEL_DM_ONLY");
+    if(Array.isArray(command.channel) && !command.channel.includes(msg.channel.type))
+      return msg.language.get("INHIBITOR_CHANNEL_ONLY", command.channel.join(", "));
+
+    if(typeof command.channel === "string" && command.channel !== msg.channel.type)
+      return msg.language.get("INHIBITOR_CHANNEL_ONLY", command.channel);
   }
 }
 

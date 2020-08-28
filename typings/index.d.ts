@@ -5,6 +5,7 @@ import { Client, UserResolvable, Collection, Message } from "discord.js";
 declare module "ayame" {
   export class AyameClient extends Client {
     public isOwner(user: UserResolvable): boolean;
+    public registerStore(store: Store<any>): this;
   }
 
   export class Piece {

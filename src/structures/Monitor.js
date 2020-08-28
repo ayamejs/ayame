@@ -14,7 +14,7 @@ class Monitor extends Piece {
     try {
       if(this.ignoreEdits && msg._edits.length) return false;
       if(!(await this.check(msg))) return false;
-      return this.run(msg);
+      return await this.run(msg);
     } catch(err) {
       this.client.emit("monitorError", err);
     }

@@ -5,9 +5,9 @@ class Integer extends Argument {
     super(...args);
   }
 
-  async run(msg, arg, tag) {
+  async run(msg, arg) {
     const number = parseInt(arg);
-    if(!Number.isInteger(number)) throw msg.locale.get("ARGUMENT_BAD_INTEGER");
+    if(!Number.isInteger(number)) throw msg.language.get("ARGUMENT_BAD_INTEGER");
     return number;
   }
 }

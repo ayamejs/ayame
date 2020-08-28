@@ -107,16 +107,21 @@ module.exports = Structures.extend("Message", (Message) => {
       return this.send(APIMessage.transformOptions(content, options, { reply: this.member || this.author }));
     }
 
-    get locale() {
-      return this.guild ? this.guild.locale : this.client.locales.defaultLocale;
+    get language() {
+      return this.guild ? this.guild.language : this.client.languages.default;
     }
 
     sendLocale(key, value = [], options) {
-      return this.send(this.locale.get(key, value), options);
+      if(!Array.isArray(value)) [options, value] = [value, []];
+      return this.send(APIMessage.transformOptions(this.language.get(key, ...value), options));
     }
 
     replyLocale(key, value = [], options) {
-      return this.reply(this.locale.get(key, value), options);
+      if(!Array.isArray(value)) [options, value] = [value, []];
+
+      return this.send(APIMessage.transformOptions(this.language.get(key, ...value), options, {
+        reply: this.member || this.author
+      }));
     }
   }
 

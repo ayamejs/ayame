@@ -5,6 +5,14 @@ class Inhibitor extends Piece {
     super(client, store, file, options);
   }
 
+  async _run(msg, command) {
+    try {
+      return await this.run(msg, command);
+    } catch(err) {
+      return err;
+    }
+  }
+
   /* eslint-disable-next-line no-unused-vars */
   async run(msg, command) {
     return false;

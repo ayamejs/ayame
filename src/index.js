@@ -31,8 +31,8 @@ module.exports = {
   Inhibitor: require("./structures/Inhibitor.js"),
   InhibitorStore: require("./structures/InhibitorStore.js"),
 
-  Locale: require("./structures/Locale.js"),
-  LocaleStore: require("./structures/LocaleStore.js"),
+  Language: require("./structures/Language.js"),
+  LanguageStore: require("./structures/LanguageStore.js"),
 
   // Providers.
   Provider: require("./structures/Provider.js"),

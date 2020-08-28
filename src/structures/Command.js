@@ -2,7 +2,7 @@ const { Permissions } = require("discord.js");
 const Piece = require("./Piece.js");
 const path = require("path");
 const Utils = require("../utils/Utils.js");
-const usage = require("@ayamejs/usage");
+const usageParser = require("@ayamejs/usage");
 
 /**
  * @typedef {Object} CommandOptions
@@ -39,89 +39,113 @@ class Command extends Piece {
   constructor(client, store, file, options = {}) {
     super(client, store, file, options);
 
+    const {
+      description = "No Description Provided.",
+      extendedHelp = "No extended help provided.",
+      ownerOnly = false,
+      aliases = [],
+      cooldown = 0,
+      nsfw = false,
+      quotes = true,
+      category = Utils.toProperCase(file.path.split(path.sep)[0]) || "General",
+      channel = null,
+      hidden = false,
+      seperator = " ",
+      usage = null,
+      botPermissions = [],
+      userPermissions = [],
+      ...extra
+    } = options;
+
     /**
      * The command description.
      * @type {String}
      */
-    this.description = options.description || "No Description Provided.";
+    this.description = description;
 
     /**
      * An extended help message for this command.
      * @type {String}
      */
-    this.extendedHelp = options.extendedHelp || "No extended help provided.";
+    this.extendedHelp = extendedHelp;
 
     /**
      * Wether this command can only be used by the bot owner(s)
      * @type {Boolean}
      */
-    this.ownerOnly = options.ownerOnly || false;
+    this.ownerOnly = ownerOnly;
 
     /**
      * Command aliases.
      * @type {String[]}
      */
-    this.aliases = options.aliases || [];
+    this.aliases = aliases;
 
     /**
      * Command cooldown in seconds.
      * @type {Number}
      */
-    this.cooldown = options.cooldown || 0;
+    this.cooldown = cooldown;
 
     /**
      * Wether this command can only be used in NSFW-enabled channels.
      * @type {Boolean}
      */
-    this.nsfw = options.nsfw || false;
+    this.nsfw = nsfw;
 
     /**
      * Wether to parse quotes.
      * @type {Boolean}
      */
-    this.quotes = typeof options.quoted !== "undefined" ? options.quotes : true;
+    this.quotes = quotes;
     
     /**
      * The category this command belongs to.
      * @type {String}
      */
-    this.category = options.category || Utils.toProperCase(file.path.split(path.sep)[0]) || "General";
+    this.category = category;
 
     /**
      * If given, the restricted channel this command can only be used in.
      * @type {?String}
      */
-    this.channel = options.channel || null;
+    this.channel = channel;
 
     /**
      * Wether this command is hidden.
      * @type {Boolean}
      */
-    this.hidden = options.hidden || false;
+    this.hidden = hidden;
 
     /**
      * Argument seperator.
      * @type {String}
      */
-    this.seperator = typeof options.seperator === "string" ? options.seperator : " ";
+    this.seperator = seperator;
 
     // Cache the parsed usage.
-    this.usage = options.usage ? {
-      raw: options.usage,
-      parsed: usage.parse(options.usage)
+    this.usage = usage ? {
+      raw: usage,
+      parsed: usageParser.parse(usage)
     } : null;
 
     /**
      * The permissions the bot needs in order to perform the command.
      * @type {Permissions}
      */
-    this.botPermissions = new Permissions(options.botPermissions || []).freeze();
+    this.botPermissions = new Permissions(botPermissions).freeze();
 
     /**
      * The permissions the user needs to execute this command.
      * @type {Permissions}
      */
-    this.userPermissions = new Permissions(options.userPermissions || []).freeze();
+    this.userPermissions = new Permissions(userPermissions).freeze();
+
+    /**
+     * Extra custom command options.
+     * @type {Object}
+     */
+    this.extra = extra;
   }
 
   async _run(msg, args) {

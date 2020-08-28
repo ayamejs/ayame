@@ -108,6 +108,9 @@ class Store extends Collection {
    */
   async loadFiles(dir) {
     const files = await walk(dir, {
+      // Make it easy for CoffeeScript users to use this framework.
+      // If they load the coffeescript/register module it allows require()ing .coffee files.
+      // so we'll assume they are using it and allow .coffee files.
       filter: (stats, file) => stats.isFile() && (file.endsWith(".js") || file.endsWith(".coffee"))
     }).catch(() => null);
 

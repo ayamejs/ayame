@@ -5,15 +5,16 @@ class InhibitorStore extends Store {
     super(client, "inhibitors");
   }
 
-  // Will reject the promise when any inhibitor blocks.
-  // The resulting error is either a string to reply or no reason.
   async run(msg, command) {
-    // Run inhibitors until one of them inhibits.
+    const promises = [];
+
     for(const inhibitor of this.values()) {
-      const result = await inhibitor.run(msg, command);
-      if(result && typeof result === "string") throw result;
-      if(result) throw undefined;
+      if(inhibitor.enabled) promises.push(inhibitor._run(msg, command));
     }
+    
+    const result = (await Promise.all(promises)).filter(res => res);
+    if(result.includes(true)) throw undefined;
+    if(result.length) throw result;
   }
 }
 

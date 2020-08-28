@@ -1,3 +1,4 @@
+const { getDot, mergeObjects } = require("../utils/Utils.js");
 
 /**
  * Represents a settings entry.
@@ -34,7 +35,7 @@ class Settings {
    * @returns {?any}
    */
   get(key, defaultValue) {
-    const value = this._data[key];
+    const value = getDot(key, this._data);
     return value == null ? defaultValue : value;
   }
 
@@ -51,6 +52,18 @@ class Settings {
   }
 
   /**
+   * Updates multiple keys.
+   * @param {Object} obj - Input to update.
+   * @returns {Promise<Object>}
+   * @example
+   * msg.guild.settings.update({ prefix: "!", premium: true });
+   */
+  async update(obj) {
+    await this.gateway.provider.update(this.gateway.table, this.id, obj);
+    return mergeObjects(this._data, obj);
+  }
+
+  /**
    * Destroys this settings entry from the database.
    * @returns {Promise<void>}
    */
@@ -60,7 +73,7 @@ class Settings {
 
   /**
    * Synchronize this entry with database.
-   * @param {Boolean} [force=false] - Force a sync even if it's already synchronizing.
+   * @param {Boolean} [force=false] - Whether to fetch from database.
    * @returns {Promise<Settings>}
    */
   sync(force = false) {

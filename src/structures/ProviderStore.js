@@ -8,6 +8,10 @@ class ProviderStore extends Store {
   get default() {
     return this.get(this.client.options.providers.default);
   }
+
+  shutdown() {
+    return Promise.all(this.map(provider => provider.shutdown()));
+  }
 }
 
 module.exports = ProviderStore;

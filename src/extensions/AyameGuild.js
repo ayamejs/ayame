@@ -7,9 +7,13 @@ module.exports = Structures.extend("Guild", (Guild) => {
 
       this.settings = this.client.gateways.guilds.get(this.id, true);
     }
+    
+    get prefix() {
+      return this.settings.get("prefix", this.client.options.prefix);
+    }
 
-    get locale() {
-      return this.client.locales.get(this.settings.get("language", this.client.options.defaultLocale));
+    get language() {
+      return this.client.languages.get(this.settings.get("language", this.client.options.defaultLanguage));
     }
   }
 

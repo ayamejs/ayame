@@ -28,7 +28,7 @@ class Event extends Piece {
       try {
         if(!(await this.check(...args))) return false;
 
-        await this.run(...args);
+        return await this.run(...args);
       } catch(err) {
         // Avoid recursion if error handler failed.
         if(this.name !== "eventError") this.client.emit("eventError", this, err);

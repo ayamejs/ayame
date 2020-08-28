@@ -11,6 +11,23 @@ class Utils {
   constructor() {
     throw new Error("Utils is a static class and cannot be instantiated.");
   }
+
+  /**
+   * Gets a nested object key using dot paths.
+   * @param {String} path - The dotted path.
+   * @param {Object} obj - The object to fetch from.
+   * @static
+   */
+  static getDot(path, obj) {
+    let last = obj;
+
+    for(const dot of path.split(".")) {
+      if(!last[dot]) return null;
+      last = last[dot];
+    }
+
+    return last;
+  }
   
   /**
    * Uppercases first letter of every word, e.g hello world -> Hello World
@@ -43,6 +60,18 @@ class Utils {
       await Promise.all((await readdir(dir)).map((part) => Utils.walk(path.join(dir, part), options, results, ++level)));
     }
     return results;
+  }
+
+  static isObject(obj) {
+    return obj && obj.constructor === Object;
+  }
+
+  static mergeObjects(target = {}, obj) {
+    for (const key in obj) {
+      target[key] = Utils.isObject(obj[key]) ? Utils.mergeObjects(target[key], obj[key]) : obj[key];
+    }
+
+    return target;
   }
 }
 

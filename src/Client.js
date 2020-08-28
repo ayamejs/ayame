@@ -6,11 +6,13 @@ const EventStore = require("./structures/EventStore.js");
 const InhibitorStore = require("./structures/InhibitorStore.js");
 const MonitorStore = require("./structures/MonitorStore.js");
 const ArgumentStore = require("./structures/ArgumentStore.js");
-const LocaleStore = require("./structures/LocaleStore");
+const LanguageStore = require("./structures/LanguageStore");
 const AyameConsole = require("./utils/AyameConsole.js");
 const GatewayManager = require("./settings/GatewayManager.js");
 const Gateway = require("./settings/Gateway.js");
 const ProviderStore = require("./structures/ProviderStore.js");
+
+const plugins = new Set();
 
 /**
  * The extended discord.js client.
@@ -31,7 +33,7 @@ class AyameClient extends Client {
     this.monitors = new MonitorStore(this);
     this.inhibitors = new InhibitorStore(this);
     this.arguments = new ArgumentStore(this);
-    this.locales = new LocaleStore(this);
+    this.languages = new LanguageStore(this);
     this.providers = new ProviderStore(this);
     
     this.stores = new Collection();
@@ -41,7 +43,7 @@ class AyameClient extends Client {
       .registerStore(this.monitors)
       .registerStore(this.inhibitors)
       .registerStore(this.arguments)
-      .registerStore(this.locales)
+      .registerStore(this.languages)
       .registerStore(this.providers);
 
     // Initialize gateways.
@@ -56,21 +58,9 @@ class AyameClient extends Client {
     if(this.options.gateways.client)
       this.gateways.register(new Gateway(this, "clientStorage", this.options.gateways.client));
 
-    /**
-     * The provider being used if any.
-     * @type {?Provider}
-     */
-    this.provider = null;
-
     for(const store of this.stores.values()) store.registerDirectory(join(__dirname, "core"));
-  }
 
-  async getPrefix(msg) {
-    if(typeof this.options.prefix === "function") return this.options.prefix(msg);
-    if(typeof this.options.prefix === "string") return this.options.prefix;
-
-    // Default prefix.
-    return "!";
+    for(const plugin of plugins) plugin.call(this);
   }
 
   /**
@@ -106,16 +96,18 @@ class AyameClient extends Client {
     const loaded = await Promise.all(this.stores.map((store) => store.loadAll().then((size) => [size, store])));
 
     for(const store of loaded) this.emit("piecesLoaded", store[1].name, store[0]);
+
+    await this.providers.init();
   }
 
-  /**
-   * Sets and initializes the given provider.
-   */
-  async setProvider(provider) {
-    this.provider = provider;
-    await this.provider.init();
-    return provider;
+  static use(plugin) {
+    const func = plugin[this.plugin];
+    if(typeof func !== "function") throw new TypeError("The given plugin does not export a plugin function.");
+    plugins.add(func);
+    return this;
   }
 }
+
+AyameClient.plugin = Symbol("AyamePlugin");
 
 module.exports = AyameClient;
