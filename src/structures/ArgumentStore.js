@@ -1,5 +1,5 @@
 const Store = require("./Store.js");
-const quotes = require("@ayamejs/quotes");
+const quotes = require("@ayame/quotes");
 const { escapeRegex } = require("../utils/Utils.js");
 
 class ArgumentStore extends Store {

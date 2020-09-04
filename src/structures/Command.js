@@ -2,7 +2,7 @@ const { Permissions } = require("discord.js");
 const Piece = require("./Piece.js");
 const path = require("path");
 const Utils = require("../utils/Utils.js");
-const usageParser = require("@ayamejs/usage");
+const usageParser = require("@ayame/usage");
 
 /**
  * @typedef {Object} CommandOptions

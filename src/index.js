@@ -44,8 +44,8 @@ module.exports = {
   Settings: require("./settings/Settings.js"),
 
   // External
-  usage: require("@ayamejs/usage"),
-  quotes: require("@ayamejs/quotes"),
+  usage: require("@ayame/usage"),
+  quotes: require("@ayame/quotes"),
 
   // Package version.
   version: require("../package.json").version
